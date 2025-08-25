@@ -35,6 +35,7 @@ public class ItemController implements ItemService {
                     item.getItemId(),
                     item.getItemName(),
                     item.getUnitType(),
+                    item.getSupplierName(),
                     item.getUnitPrice(),
                     item.getDate()
             );
@@ -53,6 +54,7 @@ public class ItemController implements ItemService {
                     SQL,
                     item.getItemName(),
                     item.getUnitType(),
+                    item.getSupplierName(),
                     item.getUnitPrice(),
                     item.getDate(), // Or use java.sql.Date.valueOf(item.getDate())
                     item.getItemId()
