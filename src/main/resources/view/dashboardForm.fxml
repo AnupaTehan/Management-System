@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="657.0" prefWidth="865.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
+   <children>
+      <Group layoutX="173.0" layoutY="60.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c7bfbf" height="447.0" layoutX="38.0" layoutY="168.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="660.0">
+         <effect>
+            <Shadow height="40.89" radius="19.067500000000003" width="37.38">
+               <color>
+                  <Color red="0.4342690110206604" green="0.46752631664276123" blue="0.49473685026168823" />
+               </color>
+            </Shadow>
+         </effect>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="447.0" layoutX="36.0" layoutY="160.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="660.0" />
+      <JFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="69.0" layoutY="235.0" onAction="#btnSupplierManagementOnAction" prefHeight="48.0" prefWidth="411.0" style="-fx-background-color: #ffffff;" text="Supplier Management" textFill="#0587a4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXButton>
+      <JFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="69.0" layoutY="445.0" onAction="#btnPurchaseOrderOnAction" prefHeight="48.0" prefWidth="411.0" style="-fx-background-color: #ffffff;" text="Purchase Order" textFill="#0587a4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXButton>
+      <JFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="69.0" layoutY="342.0" onAction="#btnItemManagementOnAction" prefHeight="48.0" prefWidth="411.0" style="-fx-background-color: #ffffff;" text="Item Management" textFill="#0587a4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXButton>
+      <Group layoutX="38.0" layoutY="60.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a4a4a4" height="87.0" layoutX="-6.0" layoutY="54.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" width="885.0">
+         <effect>
+            <Shadow>
+               <color>
+                  <Color red="0.45080000162124634" green="0.45693331956863403" blue="0.46000000834465027" opacity="0.6443768739700317" />
+               </color>
+            </Shadow>
+         </effect>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="98.0" layoutY="39.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" width="879.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#17aecc" height="65.0" layoutX="72.0" layoutY="54.0" stroke="#0587a4" strokeType="INSIDE" width="259.0" />
+      <Label alignment="CENTER" layoutX="75.0" layoutY="47.0" prefHeight="79.0" prefWidth="252.0" text="ERPS" textFill="WHITE">
+         <font>
+            <Font name="Dubai Bold" size="45.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="65.0" fitWidth="109.0" layoutX="707.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/1.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
