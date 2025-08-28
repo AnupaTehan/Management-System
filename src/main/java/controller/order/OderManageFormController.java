@@ -290,9 +290,50 @@ public class OderManageFormController implements Initializable {
 
 
 
+        cmdItemNames.setEditable(true);
+
+        // Typing listener for filtering + live search
+        cmdItemNames.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                cmdItemNames.setItems(FXCollections.observableArrayList(supplierItems));
+            } else {
+                List<String> filtered = itemService.searchItemsNamesByNamePattern(newValue);
+                cmdItemNames.setItems(FXCollections.observableArrayList(filtered));
+            }
+
+            // Keep typed text in editor
+            cmdItemNames.getEditor().setText(newValue);
+            cmdItemNames.getEditor().positionCaret(newValue.length());
+            cmdItemNames.show();
+
+            // Auto-fill item details if text matches
+            if (newValue != null && !newValue.trim().isEmpty()) {
+                fillItemDetails(newValue);
+            } else {
+                txtItemUniteType.clear();
+                txtUnitePrice.clear();
+                txtItemQuantity.clear();
+            }
+        });
+
+
+// Selection listener (when user picks from dropdown)
+        cmdItemNames.setOnAction(event -> {
+            String selectedItem = cmdItemNames.getSelectionModel().getSelectedItem().toString();
+            if (selectedItem != null && !selectedItem.trim().isEmpty()) {
+                fillItemDetails(selectedItem);
+            }
+        });
+
+
+
+
+
 
 
     }
+
+    private List<String> supplierItems = new ArrayList<>();
 
 
     private void fillSupplierDetailsAndItems(String supplierName) {
@@ -306,7 +347,7 @@ public class OderManageFormController implements Initializable {
             txtSupplierEmail.setText(supplier.getSupplierEmail());
 
             // 2. Filter items for this supplier
-            List<String> supplierItems = itemService.getItemsBySupplierName(supplier.getSupplierName());
+            supplierItems = itemService.getItemsBySupplierName(supplier.getSupplierName());
             cmdItemNames.setItems(FXCollections.observableArrayList(supplierItems));
         } else {
             // Clear item ComboBox if no supplier found

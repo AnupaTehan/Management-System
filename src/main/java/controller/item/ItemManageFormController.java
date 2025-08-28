@@ -152,7 +152,7 @@ public class ItemManageFormController implements Initializable {
         itemId.setText(null);
         itemName.setText(null);
         itemUnitPrice.setText(null);
-        itemDate.setText(null);
+
 
     }
 

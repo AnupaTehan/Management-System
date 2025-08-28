@@ -28,7 +28,7 @@ public class ItemController implements ItemService {
     @Override
     public boolean addItem(Item item) {
 
-        String SQL = "INSERT INTO item VALUES(?,?,?,?,?)";
+        String SQL = "INSERT INTO item VALUES(?,?,?,?,?,?)";
         try{
             return CrudUtil.execute(
                     SQL,
@@ -48,7 +48,7 @@ public class ItemController implements ItemService {
 
     @Override
     public boolean updateItem(Item item) {
-        String SQL = "UPDATE item SET itemName = ?, unitType = ?, unitPrice = ?, date = ? WHERE itemId = ?";
+        String SQL = "UPDATE item SET itemName = ?, unitType = ?, supplierName = ? , unitPrice = ?, date = ? WHERE itemId = ?";
         try {
             return CrudUtil.execute(
                     SQL,
@@ -214,6 +214,36 @@ public class ItemController implements ItemService {
         return items; // Return the list of item names
     }
 
+    @Override
+    public List<String> searchItemsNamesByNamePattern(String filter) {
+        List<String> itemNames = new ArrayList<>();
+        String sql;
+
+        if (filter == null || filter.trim().isEmpty()) {
+            sql = "SELECT itemName FROM item"; // show all items
+        } else {
+            sql = "SELECT itemName FROM item WHERE itemName LIKE ?";
+        }
+
+        try (Connection connection = DBConnection.getNewConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            if (filter != null && !filter.trim().isEmpty()) {
+                ps.setString(1, "%" + filter + "%");
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    itemNames.add(rs.getString("itemName"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return itemNames;
+    }
 
 
 

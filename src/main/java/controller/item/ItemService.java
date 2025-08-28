@@ -27,4 +27,6 @@ public interface ItemService {
 
 
     List<String> getItemsBySupplierName(String supplierName);
+
+    List<String> searchItemsNamesByNamePattern(String newValue);
 }
