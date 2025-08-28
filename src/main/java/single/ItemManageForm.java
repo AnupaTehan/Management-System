@@ -17,7 +17,7 @@ public class ItemManageForm {
     private ItemManageForm(){
         stage = new Stage();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/itemManageForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/itemManageForm.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.setTitle("Item Manager Form");

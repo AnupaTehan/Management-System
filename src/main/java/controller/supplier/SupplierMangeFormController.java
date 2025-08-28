@@ -401,7 +401,7 @@ public class SupplierMangeFormController implements Initializable {
             Sheet sheet = workbook.createSheet("Suppliers");
 
             // === Insert PNG Logo with smaller size ===
-            InputStream logoInput = new FileInputStream("src/main/resources/img/logo.png");
+            InputStream logoInput = getClass().getResourceAsStream("/img/logo.png");
             byte[] logoBytes = IOUtils.toByteArray(logoInput);
             logoInput.close();
 

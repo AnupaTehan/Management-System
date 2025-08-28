@@ -17,7 +17,7 @@ public class DashBoardForm {
     private DashBoardForm(){
         stage = new Stage();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/dashboardForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.setTitle("Item Manager Form");

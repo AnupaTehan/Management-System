@@ -450,7 +450,8 @@ public class OderManageFormController implements Initializable {
             // ===== COMPANY LOGO AND INFO (TOP LEFT) =====
             // Logo placement
             try {
-                InputStream logoInputStream = new FileInputStream("src/main/resources/img/logo.png");
+                InputStream logoInputStream = getClass().getResourceAsStream("/img/logo.png");
+
                 byte[] bytes = logoInputStream.readAllBytes();
                 int pictureIdx = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
                 logoInputStream.close();

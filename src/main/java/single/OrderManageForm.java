@@ -17,7 +17,7 @@ public class OrderManageForm {
     private OrderManageForm(){
         stage = new Stage();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/OrderManagementForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/OrderManagementForm.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.setTitle("Order Manager Form");
