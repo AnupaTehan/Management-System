@@ -214,36 +214,59 @@ public class ItemController implements ItemService {
         return items; // Return the list of item names
     }
 
+
+//    public List<String> searchItemsNamesByNamePattern(String filter) {
+//        List<String> itemNames = new ArrayList<>();
+//        String sql;
+//
+//        if (filter == null || filter.trim().isEmpty()) {
+//            sql = "SELECT itemName FROM item"; // show all items
+//        } else {
+//            sql = "SELECT itemName FROM item WHERE itemName LIKE ?";
+//        }
+//
+//        try (Connection connection = DBConnection.getNewConnection();
+//             PreparedStatement ps = connection.prepareStatement(sql)) {
+//
+//            if (filter != null && !filter.trim().isEmpty()) {
+//                ps.setString(1, "%" + filter + "%");
+//            }
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    itemNames.add(rs.getString("itemName"));
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return itemNames;
+//    }
+
     @Override
     public List<String> searchItemsNamesByNamePattern(String filter) {
-        List<String> itemNames = new ArrayList<>();
-        String sql;
+        List<String> items = new ArrayList<>();
+        String sql = "SELECT itemName FROM item WHERE itemName LIKE ?";
 
-        if (filter == null || filter.trim().isEmpty()) {
-            sql = "SELECT itemName FROM item"; // show all items
-        } else {
-            sql = "SELECT itemName FROM item WHERE itemName LIKE ?";
-        }
+        try (Connection conn = DBConnection.getNewConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try (Connection connection = DBConnection.getNewConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            if (filter != null && !filter.trim().isEmpty()) {
-                ps.setString(1, "%" + filter + "%");
-            }
+            ps.setString(1, "%" + filter + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    itemNames.add(rs.getString("itemName"));
+                    items.add(rs.getString("itemName"));
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return itemNames;
+        return items;
     }
+
 
 
 

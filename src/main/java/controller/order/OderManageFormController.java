@@ -47,9 +47,9 @@ import javafx.stage.Stage;
 
 public class OderManageFormController implements Initializable {
 
-    public ComboBox cmdItemNames;
+    public ComboBox<String> cmdItemNames;
 
-    public ComboBox cmdSupplierName;
+    public ComboBox<String> cmdSupplierName;
     @FXML
     private Label lblOrderID;
     @FXML
@@ -69,9 +69,9 @@ public class OderManageFormController implements Initializable {
     private TextField txtSupplierName;
 
     @FXML
-    private ComboBox cmbSupplierId;
+    private ComboBox<String> cmbSupplierId;
     @FXML
-    private ComboBox cmbItemId;
+    private ComboBox<String> cmbItemId;
 
     @FXML
     private TextField txtItemName;
@@ -144,9 +144,8 @@ public class OderManageFormController implements Initializable {
 
         // Read item details
         String orderID = lblOrderID.getText();
-        String itemCode = cmbItemId.getValue().toString();
-        String itemName = cmdItemNames.getValue().toString();
-        String itemType = txtItemUniteType.getText();
+        String itemCode = cmbItemId.getValue();
+        String itemName = cmdItemNames.getValue();
         double unitPrice = Double.parseDouble(txtUnitePrice.getText());
         double total = unitPrice * quantity;
 
@@ -242,6 +241,8 @@ public class OderManageFormController implements Initializable {
 
 // Typing listener
         cmdSupplierName.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (isClearingFields) return; // skip listener while clearing
+
             if (newValue == null || newValue.trim().isEmpty()) {
                 cmdSupplierName.setItems(allSuppliers);
             } else {
@@ -258,9 +259,10 @@ public class OderManageFormController implements Initializable {
             }
         });
 
+
 // Dropdown selection listener
         cmdSupplierName.setOnAction(event -> {
-            String selectedSupplier = cmdSupplierName.getSelectionModel().getSelectedItem().toString();
+            String selectedSupplier = cmdSupplierName.getSelectionModel().getSelectedItem();
             if (selectedSupplier != null && !selectedSupplier.trim().isEmpty()) {
                 fillSupplierDetailsAndItems(selectedSupplier);
             }
@@ -268,21 +270,22 @@ public class OderManageFormController implements Initializable {
 
 
 
-        // Typing listener
         cmdItemNames.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (isClearingFields) return; // Skip listener while clearing
+
             if (newValue != null && !newValue.trim().isEmpty()) {
                 fillItemDetails(newValue); // Fill item fields automatically
             } else {
-                // Optional: clear fields when nothing typed
                 txtItemUniteType.clear();
                 txtUnitePrice.clear();
                 txtItemQuantity.clear();
             }
         });
 
+
 // Dropdown selection listener
         cmdItemNames.setOnAction(event -> {
-            String selectedItem = cmdItemNames.getSelectionModel().getSelectedItem().toString();
+            String selectedItem = cmdItemNames.getSelectionModel().getSelectedItem();
             if (selectedItem != null && !selectedItem.trim().isEmpty()) {
                 fillItemDetails(selectedItem);
             }
@@ -319,7 +322,7 @@ public class OderManageFormController implements Initializable {
 
 // Selection listener (when user picks from dropdown)
         cmdItemNames.setOnAction(event -> {
-            String selectedItem = cmdItemNames.getSelectionModel().getSelectedItem().toString();
+            String selectedItem = cmdItemNames.getSelectionModel().getSelectedItem();
             if (selectedItem != null && !selectedItem.trim().isEmpty()) {
                 fillItemDetails(selectedItem);
             }
@@ -412,23 +415,42 @@ public class OderManageFormController implements Initializable {
         timeline.play();
     }
 
+    private boolean isClearingFields = false;
+
     private void clearItemFields() {
-       cmdItemNames.setValue(null);
-        txtItemUniteType.setText(null);
-        txtUnitePrice.setText(null);
-        txtItemQuantity.setText(null);
-        cmbItemId.setValue(null);
-        cmbItemId.setEditable(true);
-        cmbItemId.setPromptText("Select Item ID");
+        isClearingFields = true;
+        try {
+            txtItemUniteType.setText(null);
+            txtUnitePrice.setText(null);
+            txtItemQuantity.setText(null);
+            cmbItemId.setValue(null);
+            cmbItemId.setEditable(true);
+            cmbItemId.setPromptText("Select Item ID");
+            cmdItemNames.setValue(null);
+            cmdItemNames.setEditable(true);
+            cmdItemNames.setPromptText("Select Item Name");
+        } finally {
+            isClearingFields = false;
+        }
     }
 
     private void clearSupplierFields() {
-        cmbSupplierId.setValue(null);
-        txtSupplierContactNo.setText(null);
-        txtSupplierEmail.setText(null);
-        cmbSupplierId.setEditable(true);
-        cmbSupplierId.setPromptText("Select Supplier ID");
+        isClearingFields = true;
+        try {
+            cmbSupplierId.setValue(null);
+            txtSupplierContactNo.setText(null);
+            txtSupplierEmail.setText(null);
+            txtSupplierAddress.setText(null);
+            cmbSupplierId.setEditable(true);
+            cmbSupplierId.setPromptText("Select Supplier ID");
+            cmdSupplierName.setValue(null);
+            cmdSupplierName.setEditable(true);
+            cmdSupplierName.setPromptText("Select Supplier Name");
+        } finally {
+            isClearingFields = false;
+        }
     }
+
 
     private void createExcelInvoice(String orderId, String date, String supplierId, String supplierName,
                                     String contactNo, String supplierEmail, String supplierAddress,
@@ -752,10 +774,10 @@ public class OderManageFormController implements Initializable {
             yellowTotalStyle.setFont(totalFont);
             yellowTotalStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
             yellowTotalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            yellowTotalStyle.setBorderTop(BorderStyle.THICK);
-            yellowTotalStyle.setBorderBottom(BorderStyle.THICK);
-            yellowTotalStyle.setBorderLeft(BorderStyle.THICK);
-            yellowTotalStyle.setBorderRight(BorderStyle.THICK);
+//            yellowTotalStyle.setBorderTop(BorderStyle.THICK);
+//            yellowTotalStyle.setBorderBottom(BorderStyle.THICK);
+//            yellowTotalStyle.setBorderLeft(BorderStyle.THICK);
+//            yellowTotalStyle.setBorderRight(BorderStyle.THICK);
 
             totalLabelCell.setCellStyle(yellowTotalStyle);
             totalValueCell.setCellStyle(yellowTotalStyle);
