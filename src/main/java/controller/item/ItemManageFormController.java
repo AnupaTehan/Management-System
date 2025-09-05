@@ -511,13 +511,13 @@ public class ItemManageFormController implements Initializable {
             anchor.setDy1(100);  // Vertical offset
 
             Picture pict = drawing.createPicture(anchor, pictureIdx);
-            pict.resize(0.8); // Resize proportionally to fit smaller space
+            pict.resize(0.7); // Resize proportionally to fit smaller space
 
             // === "ITEM LIST" Title with perfect alignment ===
             CellStyle titleStyle = workbook.createCellStyle();
             Font titleFont = workbook.createFont();
             titleFont.setBold(true);
-            titleFont.setFontHeightInPoints((short) 16);
+            titleFont.setFontHeightInPoints((short) 15);
             titleFont.setColor(IndexedColors.WHITE.getIndex());
             titleStyle.setFont(titleFont);
             titleStyle.setFillForegroundColor(IndexedColors.GREEN.getIndex());
@@ -535,10 +535,9 @@ public class ItemManageFormController implements Initializable {
             titleStyle.setLeftBorderColor(IndexedColors.DARK_GREEN.getIndex());
             titleStyle.setRightBorderColor(IndexedColors.DARK_GREEN.getIndex());
 
-            // Merge cells for title next to logo with proper alignment
-            sheet.addMergedRegion(new CellRangeAddress(2, 4, 3, 8)); // Centered vertically with logo
+            sheet.addMergedRegion(new CellRangeAddress(2, 4, 3, 5)); // Changed from 3,8 to 3,5 - much narrower
 
-            // Create title row and apply style to all merged cells
+// Create title row and apply style to all merged cells
             Row titleRow = sheet.getRow(3);
             if (titleRow == null) titleRow = sheet.createRow(2);
 
@@ -550,11 +549,11 @@ public class ItemManageFormController implements Initializable {
                 titleCell.setCellStyle(titleStyle);
             }
 
-            // Ensure all rows in the merged region have the style applied
+// Ensure all rows in the merged region have the style applied
             for (int row = 2; row <= 4; row++) {
                 Row currentRow = sheet.getRow(row);
                 if (currentRow == null) currentRow = sheet.createRow(row);
-                for (int col = 3; col <= 8; col++) {
+                for (int col = 3; col <= 5; col++) { // Changed from col <= 8 to col <= 5
                     Cell cell = currentRow.getCell(col);
                     if (cell == null) cell = currentRow.createCell(col);
                     cell.setCellStyle(titleStyle);
@@ -592,13 +591,13 @@ public class ItemManageFormController implements Initializable {
             // Add text wrapping for better header display
             headerStyle.setWrapText(true);
 
-            String[] columns = {"Item ID", "Item Name", "Unit Type", "Unit Price", "Date"};
+            String[] columns = {"Item ID", "Item Name", "Unit Type","Supplier Name", "Unit Price", "Date"};
 
             // Header row with perfect positioning
-            int headerRowIndex = 9;
+            int headerRowIndex = 7;
             int columnOffset = 1; // Start from column B (index 1) instead of A (index 0)
             Row headerRow = sheet.createRow(headerRowIndex);
-            headerRow.setHeightInPoints(29); // Set consistent header row height
+            headerRow.setHeightInPoints(25); // Set consistent header row height
 
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i + columnOffset); // Add offset here
@@ -619,14 +618,15 @@ public class ItemManageFormController implements Initializable {
             int rowNum = headerRowIndex + 1;
             for (Item item : items) {
                 Row row = sheet.createRow(rowNum++);
-                row.setHeightInPoints(20); // Consistent row height
+                row.setHeightInPoints(15); // Consistent row height
 
                 // Create cells with offset
                 row.createCell(0 + columnOffset).setCellValue(item.getItemId());
                 row.createCell(1 + columnOffset).setCellValue(item.getItemName());
                 row.createCell(2 + columnOffset).setCellValue(item.getUnitType());
-                row.createCell(3 + columnOffset).setCellValue(item.getUnitPrice());
-                row.createCell(4 + columnOffset).setCellValue(item.getDate());
+                row.createCell(3 + columnOffset).setCellValue(item.getSupplierName());
+                row.createCell(4 + columnOffset).setCellValue(item.getUnitPrice());
+                row.createCell(5 + columnOffset).setCellValue(item.getDate());
 
                 // Apply styles with offset
                 for (int i = 0; i < columns.length; i++) {
@@ -641,8 +641,9 @@ public class ItemManageFormController implements Initializable {
             sheet.setColumnWidth(0 + columnOffset, 5000);  // Column B - Item ID
             sheet.setColumnWidth(1 + columnOffset, 10000); // Column C - Item Name
             sheet.setColumnWidth(2 + columnOffset, 7000);  // Column D - Unit Type
-            sheet.setColumnWidth(3 + columnOffset, 7000);  // Column E - Unit Price
-            sheet.setColumnWidth(4 + columnOffset, 8000);  // Column F - Date
+            sheet.setColumnWidth(3 + columnOffset, 7000);  // Column D - Unit Type
+            sheet.setColumnWidth(4 + columnOffset, 7000);  // Column E - Unit Price
+            sheet.setColumnWidth(5 + columnOffset, 8000);  // Column F - Date
 
             // Save file
             try (FileOutputStream fileOut = new FileOutputStream(file)) {
@@ -650,7 +651,7 @@ public class ItemManageFormController implements Initializable {
             }
             workbook.close();
 
-            new Alert(Alert.AlertType.INFORMATION, "Excel exported with style!").show();
+            new Alert(Alert.AlertType.INFORMATION, "Excel exported!").show();
 
         } catch (Exception e) {
             e.printStackTrace();
